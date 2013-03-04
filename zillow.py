@@ -20,47 +20,7 @@ Steps:
 
 '''
 
-### The site to start crawling
-###root='http://www.zillow.com/'
-##search_root='http://www.zillow.com/homes/'
-##nav_root='http://www.zillow.com/'
-##
-### Store street number, street name, town, state
-###address='275 Thistle Lake Zurich IL'
-##address='1602 2ND ST WINTHROP HARBOR IL'
-##
-### Prepare the url
-##search_url=search_root+address.lower().replace(' ','-')+'_rb/'
-##
-##
-##
-### Open the url
-##site=urllib2.urlopen(search_url)
-##
-### Read the html from the site and turn it into a soup object
-##soup=BeautifulSoup(site.read())
-###print(soup.prettify())
-##
-### Convert the site to text and make all lower case
-##site_txt=str(soup).lower()
-##
-### Split the address
-##ad=address.lower().split()
-##a=''
-##for i in range(len(ad)):
-##    a=a+'.?'+ad[i]
-##
-##
-### Sort of works
-##regex=re.compile('homedetails.*_zpid');
-##r=re.findall(regex,site_txt )
-###;re.search(regex,site_txt );
-##
-##start=r[0].index('homedetails')
-##end=r[0].index('_zpid')+len('_zpid')
-##y=r[0][start:end]
-##
-##url='http://www.zillow.com/'+y.replace('\\','')
+
 
 
 
@@ -110,7 +70,8 @@ def search_prop(nav_root, search_root,address):
         return url
 
     except:
-        return 'Searcher Error-01'
+        #return 'Searcher Error-01:'+site_txt
+        return 'Searcher Error-01:'
 
     
 

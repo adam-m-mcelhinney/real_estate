@@ -10,7 +10,7 @@ nav_root='http://www.zillow.com/'
 search_root='http://www.zillow.com/homes/'
 
 data=import_clean(file)
-#data=data[:5]
+data=data[:5]
 
 # loop through the addresses and get the search urls
 search=[]
