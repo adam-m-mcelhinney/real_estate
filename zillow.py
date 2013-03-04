@@ -91,17 +91,28 @@ def search_prop(nav_root, search_root,address):
     # Convert the site to text and make all lower case
     site_txt=str(soup).lower()
 
+    # Check to see if the home was found
+    exists_reg=re.compile('no matching homes found')
+    exists=re.findall(exists_reg,site_txt )
+    #print exists
+    if len(exists)>0:
+        return('Not in Zillows db')
+
     # Sort of works
     regex=re.compile('homedetails.*_zpid');
     r=re.findall(regex,site_txt )
     #;re.search(regex,site_txt );
+    try:
+        start=r[0].index('homedetails')
+        end=r[0].index('_zpid')+len('_zpid')
+        y=r[0][start:end]
+        url=nav_root+y.replace('\\','')
+        return url
 
-    start=r[0].index('homedetails')
-    end=r[0].index('_zpid')+len('_zpid')
-    y=r[0][start:end]
-    url=nav_root+y.replace('\\','')
+    except:
+        return 'Searcher Error-01'
 
-    return url
+    
 
 
     
@@ -109,6 +120,8 @@ if __name__ == "__main__":
     nav_root='http://www.zillow.com/'
     search_root='http://www.zillow.com/homes/'
     #address='1602 2ND ST WINTHROP HARBOR IL'
-    address='1602 2ND '
+    address='10982 N 5TH ST WINTHROP HARBOR'
+    #address='147 SHERIDAN RD WINTHROP HARBOR'
+    #address='1602 2ND '
     print search_prop(nav_root,search_root,address)
     
