@@ -73,8 +73,11 @@ def get_info(property_url):
 
     # Compile the results into a list
     #facts=[bath[0],beds[0],zest[0],rent[0],year[0],lot[0],house[0],property_url]
-    facts=[bath,beds,zest,rent,year,lot,house,property_url]
-    
+    #facts=[bath,beds,zest,rent,year,lot,house,property_url]
+
+    sold= parser('sold',site,
+
+    facts=[bath,beds,zest,rent,year,lot,house,property_url, sold]
     return facts
 
 ##    # Baths
