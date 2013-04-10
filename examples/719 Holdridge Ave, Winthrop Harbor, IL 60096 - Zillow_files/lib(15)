@@ -1,0 +1,33 @@
+YUI.add("z-async-content-mgr",function(e){var a="AsyncContentMgr",c="info",b="addComponent",d="managed:teardown";
+e.namespace("Z").AsyncContentMgr=e.Base.create("asyncContentMgr",e.Base,[e.BaseComponentMgr,e.Z.EventHandleManager],{_reqIdComponentMap:{},initializer:function(f){e.log("init",c,a);
+this.after(b,this._afterAddComponent);e.on(d,this._doTearDown,this);},_create:function(f){var h=f.blocks[0],g=new e.Z[f.klass](h).render();
+return g;},_injectContent:function(f){var g=f.divId;this.useComponent(g);},_doTearDown:function(h){var g=h.requestId;
+if(g){var f=this._reqIdComponentMap[g];if(f){this.destroyComponent(f);delete this._reqIdComponentMap[g];
+}}this.removeHandles();},_afterAddComponent:function(j){var i=e.config.requestId,g=j.componentToAdd,f=g.originalName;
+if(i){var h=this._reqIdComponentMap[i];if(!h){h=this._reqIdComponentMap[i]=[];}h.push(f);}this.addHandle(e.once(g.customEvent,e.bind(this._injectContent,this)));
+}},{ATTRS:{}});ZILLOW[a]=new e.Z[a]();},"@VERSION",{requires:["z-base-component-mgr","z-event-handle-manager"]});
+
+YUI.add("z-plugin-carousel-sync",function(g){var b="CarouselSync",c="debug",e="carouselSync",d=e+":getIndex",h=e+":setIndex",f="currentPage",a="host";
+g.publish(d,{emitFacade:true,broadcast:1});g.publish(h,{emitFacade:true,broadcast:1});g.namespace("Z.Plugin").CarouselSync=g.Base.create("carouselSyncPlugin",g.Plugin.Base,[g.Z.EventHandleManager],{_uniqueId:null,initializer:function(){this._uniqueId=this.get(a)._uniqueId;
+g.log("initialized for "+this._uniqueId,c,b);this.addHandle(g.on(d,this._getIndex,this));this.addHandle(g.on(h,this._setIndex,this));
+},destructor:function(){g.log("destructor",c,b);this.removeHandles();},_getIndex:function(j){if(j.targetId!=this._uniqueId){return;
+}g.log("_getIndex: "+j.targetId+" from: "+j.sourceId,c,b);var i=this.get(a);g.fire(h,{sourceId:this._uniqueId,targetId:j.sourceId,index:i._currentIndex||i.get(f)});
+},_setIndex:function(j){if(j.targetId!=this._uniqueId){return;}g.log("_setIndex: "+j.targetId+" "+j.index+" from: "+j.sourceId,c,b);
+var i=this.get(a);if(i.hscroll&&i.hscroll._syncSetIndex){i.hscroll._syncSetIndex(j);}else{if(i._syncSetIndex){i._syncSetIndex(j);
+}else{g.log(i.name+" does not implement _syncSetIndex","WARN",b);}}}},{NS:"csync"});},"3.5.0",{requires:["base-build","plugin"]});
+
+YUI.add("z-hdp-photo-carousel",function(c){var d=c.namespace("Z"),a="HdpPhotoCarousel",b="debug";d[a]=c.Base.create("hdpPhotoCarousel",c.Widget,[d.WidgetAsyncBlock,d.EventHandleManager],{CONTENT_TEMPLATE:null,_carousel:null,_thumbs:null,destructor:function(){c.log("destructor",b,a);
+this.removeHandles();},renderUI:function(){if(this.get("enableThumbs")){c.use("photo-carousel","photo-carousel-horizontal-plugin","z-photocarousel-upsell",c.bind(this._initComponents,this));
+}},_initComponents:function(){if(this.get("destroyed")){return;}this._initPhotoCarousel();this._initThumbs();
+if(this.get("enableShare")){c.use("photo-carousel-share",c.bind(this._initShare,this));}if(document.activeElement){this.addHandle(c.one(document).on("key",c.bind(this._keyPagingControl,this),"up: 37, 39"));
+}},_initPhotoCarousel:function(){this._carousel=new c.Z.PhotoCarouselThumb({boundingBox:this.get("baseSelector"),isTarget:true,isFluid:this.get("baseFluid")});
+if(this.get("enableUpsell")){this._carousel.plug(c.Z.PhotoCarouselUpsell);this._carousel.upsell.addUpsell({renderEvent:"digsUpsell:renderUpsell",Id:"z-digs-upsell"});
+}},_initThumbs:function(){this._thumbs=new c.Z.PhotoCarouselThumb({boundingBox:this.get("thumbsSelector"),location:"HDP:Header",thumbSourceEvent:"click",preventDefaultThumbBehavior:true,isFluid:this.get("thumbsFluid"),plugins:[{fn:c.Z.Plugin.PhotoCarouselHorizontalPlugin,cfg:{thumbHeight:46,thumbWidth:46,thumbSpacing:2}}]});
+this._thumbs.plug(c.Z.Plugin.CarouselSync);if(this.get("enableUpsell")){this._thumbs.plug(c.Z.PhotoCarouselUpsell);
+this._thumbs.upsell.addUpsell({thumbSrc:"/static/images/home-improvement/digs-upsell-small-2.png"});}},_initShare:function(){this._carousel.plug(c.Z.Plugin.PhotoCarouselShare,{rootNodeId:"save-and-pin-block",location:"HDP:Header"});
+},_getActiveElement:function(){return document.activeElement;},_keyPagingControl:function(i){var g=this._getActiveElement(),f,h,j=c.one("#photos");
+if(!g||!this._thumbs||c.Z.LightboxManager.getInstance().getActiveLightboxId()!==null||j&&j.getStyle("display")=="none"){return;
+}f=g.tagName;if(f=="INPUT"||f=="TEXTAREA"||f=="SELECT"){return;}i.preventDefault();h=this._thumbs.hscroll;
+if(!h._haltKeyControl){if(i.keyCode=="37"){h.singleThumbLeft(i);}else{if(i.keyCode=="39"){h.singleThumbRight(i);
+}}}}},{ATTRS:{enableShare:{value:false},enableThumbs:{value:true},enableUpsell:{value:false},baseSelector:{value:"#hip-content"},thumbsSelector:{value:"#hip-content_thumbs"},thumbsFluid:{value:false},baseFluid:{value:false}}});
+},"3.5.0",{optional:["photo-carousel","photo-carousel-horizontal-plugin","photo-carousel-share","z-photocarousel-upsell"],requires:["base-build","widget","zillow-async-block","z-event-handle-manager","z-plugin-carousel-sync","zillow-lightbox-manager"]});

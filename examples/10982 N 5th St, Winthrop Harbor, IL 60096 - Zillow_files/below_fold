@@ -1,0 +1,35 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+  document.write(unescape('%3Cscript%20type%3D%22text%2Fjavascript%22%20language%3D%22javascript%22%3E%0Avar%20aaxbi%3D%27e7a9c6b0-51b7-48e5-b7ac-d51e847414df%27%3B%0Avar%20aaxamu%3D%271bfd3419-0532-45f9-8c48-08575c625439%27%3B%0Avar%20aaxmu%3D%274.104000%27%3B%0Avar%20aaxsz%3D%27300x250%27%3B%0Avar%20aaxep%3D%27http%3A%2F%2Faax-us-west.amazon-adsystem.com%27%3B%0A%3C%2Fscript%3E%0A%3Cscript%20type%3D%22text%2Fjavascript%22%20language%3D%22javascript%22%20src%3D%22http%3A%2F%2Fc.amazon-adsystem.com%2Frtb%2Fadmeld.js%22%3E%3C%2Fscript%3E'));
+
+  
+
+
+
+
+  
+  
+  
+    document.write("<div style=\"display:none;\"><script type=\"text/javascript\" src=\"http://a.tribalfusion.com/j.ad?site=admeldae&adSpace=audienceselect&size=1x1&admeld_user_id=1bfd3419-0532-45f9-8c48-08575c625439&admeld_dataprovider_id=10&admeld_callback=http://tag.admeld.com/pixel\"><\/script></div>");
+  
+    document.write("<img src=\"http://pixel.quantserve.com/pixel/p-61YFdB4e9hBRs.gif?labels=791%2e2471%2e56802%2e300x250&media=apl&idmatch=0\" style=\"display: none;\" border=\"0\" height=\"1\" width=\"1\" alt=\"Quantcast\"/>");
+  
+    document.write("<iframe style=\"display:none;\" width=\"0\" height=\"0\" border=\"0\" marginwidth=\"0\" marginheight=\"0\" frameborder=\"0\" src=\"http://cti.w55c.net/ct/cms-2-frame.html?admeld_user_id=1bfd3419-0532-45f9-8c48-08575c625439&admeld_adprovider_id=260&admeld_call_type=iframe&admeld_callback=http://tag.admeld.com/match\"></iframe>");
+  
+  
+
+
+

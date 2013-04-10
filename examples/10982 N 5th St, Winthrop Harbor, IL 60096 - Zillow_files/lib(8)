@@ -1,0 +1,14 @@
+YUI.add("z-tab-content-mgr",function(c){var d=c.namespace("Z"),a="TabContentMgr",b="info";d.CustomTab=c.Base.create("customTab",c.Tab,[d.EventHandleManager],{initializer:function(){this.addHandle(this.once("selectedChange",this._fireTabCustomEvent));
+this.addHandle(this.once("click",this._fireGATrackingEvent,this));},destructor:function(){this.removeHandles();
+},_fireTabCustomEvent:function(){var f=this.get("panelNode").get("id"),e="'"+a+":"+f+"'";c.log("fireTabCustomEvent - "+e,b,a);
+c.fire("tabContentMgr:"+f);},_fireGATrackingEvent:function(){var f=this.get("panelNode").get("id"),e="Header - "+f+" toggle";
+c.log("sending analytics call for "+f,b,a);c.fire("trackLink",{category:"Homes",action:e});}});d.TabContentMgr=c.Base.create("tabContentMgr",c.TabView,[],{CONTENT_TEMPLATE:null,_buttonSelector:".tab-container li a",initializer:function(){this._publishCustomEvents();
+this.after(this._afterBindUI,this,"bindUI");},_afterBindUI:function(){this.on("selectedChange",this._blurAnchorLink);
+this._onViewLargerClick();},_blurAnchorLink:function(f){var g=f.target.get("boundingBox");if(g){g.all(".yui3-customtab-content").each(function(e){e.getDOMNode().blur();
+});}},_getHashes:function(e){return c.all(e).get("hash");},_mapHashes:function(g){var h=0,f=g.length,e=[],j;
+for(h;h<f;h+=1){j=g[h];if(j){e.push(j.substr(1));}}return e;},_buildIdHash:function(f){var g=this._getHashes(f),e=this._mapHashes(g);
+return c.Array.hash(e);},_publishCustomEvents:function(){c.publish(this._buildIdHash(this._buttonSelector),{broadcast:2,emitFacade:true});
+},_onViewLargerClick:function(){var h=this.get("boundingBox"),g="#"+h.get("id"),f=c.one(g+" .view-larger"),e="View larger map";
+if(f){f.once("managedTeardown|click",function(){c.log("sending analytics call for "+e,b,a);c.fire("trackLink",{category:"Homes",action:e});
+});}}},{NAME:"tabContentMgr",ATTRS:{render:{value:true},tabNodes:{value:null},tabView:{writeOnce:true},defaultChildType:{value:c.Z.CustomTab}},HTML_PARSER:{tabNodes:["ul.tab-container li"]}});
+},"3.5.0",{requires:["tabview","zillow-link-tracking","z-event-handle-manager"]});

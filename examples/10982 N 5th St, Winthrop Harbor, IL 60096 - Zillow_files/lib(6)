@@ -1,0 +1,8 @@
+YUI.add("z-search-autocomplete",function(e){var a="AutoComplete",b="getRegionByPrefix?prefix={query}&json&callback={callback}",d=e.namespace("Z");
+function c(f){c.superclass.constructor.apply(this,arguments);this.inputNode=e.one(f.inputNodeSelector);
+this.inputNode.ancestor().addClass("yui3-skin-sam");var g=f.source!=null?f.source:b;f.source=f.ac_results_url+g;
+f.inputNode=f.inputNodeSelector;f.render=true;if(this.inputNode){this.AC=new e.AutoComplete(f);}if(f.afterSelect!==null){this.AC.after("select",f.afterSelect);
+}e.on("windowresize",e.bind(function(){this.windowResized();},this));return this;}d[a]=e.extend(c,e.Base,{getAC:function(){if(this.AC!==null){return this.AC;
+}return null;},AC:null,getBoundingBox:function(){if(this.getAC()!==null){return this.getAC().get("boundingBox");
+}return null;},windowResized:function(){this.setACWidth();},setACWidth:function(){var f=this.inputNode.get("offsetWidth");
+this.getAC().get("boundingBox").set("offsetWidth",f);}},{NAME:"autoComplete"});},"3.3.0",{requires:["jsonp","autocomplete","event-resize"]});
