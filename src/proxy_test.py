@@ -29,7 +29,7 @@ with open(proxy_file, 'rb') as csvfile:
 	for row in proxy:
             d.append(row)
 
-            
+
 
 def proxy_dict(proxy_list):
     """
@@ -40,7 +40,8 @@ def proxy_dict(proxy_list):
     proxies=[]
     for i in range(len(proxy_list)):
         e = proxy_list[i][0].split(',')
-        proxy=[e[0].lower(),e[1]+':'+e[2]]
+        #proxy=[e[0].lower(),e[1]+':'+e[2]]
+        proxy={e[0].lower(),e[1]+':'+e[2]}
         proxies.append(proxy)
     return proxies
 
@@ -63,6 +64,6 @@ urllib2.install_opener(opener)
 y = opener.open(search_url)
 soup = BeautifulSoup(y.read())
 print soup.prettify
-        
-        
+
+
 
