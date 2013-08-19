@@ -49,16 +49,16 @@ if __name__ == "__main__":
     import httplib
 
     def connectTor():
-        socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9050, True)
-        #socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9051, True)
+        #socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9050, True)
+        socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9051, True)
         socket.socket = socks.socksocket
 
     def main():
         connectTor()
         print ('Connected to Tor')
-        conn = httplib.HTTPConnection("my-ip.heroku.com")
+        #conn = httplib.HTTPConnection("my-ip.heroku.com")
 #        conn = httplib.HTTPConnection('https://check.torproject.org/')
-        #conn = httplib.HTTPConnection('check.torproject.org')
+        conn = httplib.HTTPConnection('check.torproject.org')
         conn.request("GET", "/")
         response = conn.getresponse()
         print response.read
