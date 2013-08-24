@@ -2,28 +2,24 @@
 #from BeautifulSoup import *
 from bs4 import BeautifulSoup
 import urllib2
-import urlparse
 import re
 
 '''
 Steps:
-1. Take the address and format it into a url for zillow to search. It should be of the form:
+1. Take the address and format it into a url for zillow to search. 
+   It should be of the form:
     http://www.zillow.com/homes/275-Thistle-Lake-Zurich-IL_rb/
     Note: Zip codes will screw it up
 
-2. Parse the resulting page for something similar to the address in step on. Then find the resulting url for that specific property.
-    It should be of the form:
+2. Parse the resulting page for something similar to the address in step on. 
+   Then find the resulting url for that specific property.
+   It should be of the form:
     http://www.zillow.com/homedetails/275-Thistle-Ln-Lake-Zurich-IL-60047/4871709_zpid/
 
 3. Parse number 2 for all the elements that you want
 
 
 '''
-
-
-
-
-
 
 def search_prop(nav_root, search_root,address):
     """
@@ -38,6 +34,9 @@ def search_prop(nav_root, search_root,address):
     address='1602 2ND ST WINTHROP HARBOR IL'
     """
     # Prepare the url
+    # TODO: Add functionality to pass in a "webuser" combination of
+    # proxy and user agent. Ensure that the scraper uses those
+    # to open the site.
     search_url=search_root+address.lower().replace(' ','-')+'_rb/'
     try:
         # Open the url

@@ -39,6 +39,8 @@ def verify_user_agent(test_user_agent):
         return True, actual_agent, test_user_agent
     else: 
         return False, actual_agent, test_user_agent
+        
+        
     
 def get_user_agents():
     """
