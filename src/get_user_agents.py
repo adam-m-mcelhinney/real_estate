@@ -40,7 +40,7 @@ def verify_user_agent(test_user_agent):
     else: 
         return False, actual_agent, test_user_agent
     
- def get_user_agents():
+def get_user_agents():
     """
     Gets  a list of the most popular user agents
 
