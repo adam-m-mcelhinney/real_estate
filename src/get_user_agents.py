@@ -43,8 +43,7 @@ def verify_user_agent(test_user_agent):
  def get_user_agents():
     """
     Gets  a list of the most popular user agents
-    Cleans out search engine related user agents using the 
-    agent_is_search function
+
     """
     url = 'http://techblog.willshouse.com/2012/01/03/most-common-user-agents/'
     response = urllib2.urlopen(url)
