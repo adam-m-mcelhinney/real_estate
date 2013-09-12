@@ -18,7 +18,8 @@ def check_ip_tor(proxy_dict = None):
     if proxy_dict is not None:
 
         prox = urllib2.ProxyHandler(proxy_dict)
-        opener = urllib2.build_opener(prox)
+        opener = urllib2.build_opener(prox, urllib2.HTTPHandler(debuglevel=1))
+        urllib2.install_opener(opener)
         response = opener.open(url)
     else:
         response = urllib2.urlopen(url)
@@ -38,32 +39,37 @@ def check_ip_tor(proxy_dict = None):
 if __name__ == "__main__":
     print check_ip_tor()
     #proxy_dict = {"http":"http://127.0.0.1:8118"}
-    proxy_dict = {"http":"http://127.0.0.1:9151"}
+    proxy_dict = {"http":"http://14.139.236.220:8080"}
     print check_ip_tor(proxy_dict)
 
     # tried this thing too
     # http://www.youtube.com/watch?v=KDsmVH7eJCs
-
-    import socket
-    import socks
-    import httplib
-
-    def connectTor():
-        #socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9050, True)
-        socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9051, True)
-        socket.socket = socks.socksocket
-
-    def main():
-        connectTor()
-        print ('Connected to Tor')
-        #conn = httplib.HTTPConnection("my-ip.heroku.com")
-#        conn = httplib.HTTPConnection('https://check.torproject.org/')
-        conn = httplib.HTTPConnection('check.torproject.org')
-        conn.request("GET", "/")
-        response = conn.getresponse()
-        print response.read
-
-    main()
-
-
+#
+#    import socket
+#    import socks
+#    import httplib
+#
+#    def connectTor():
+#        #socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9050, True)
+#        socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9051, True)
+#        socket.socket = socks.socksocket
+#
+#    def main():
+#        connectTor()
+#        print ('Connected to Tor')
+#        #conn = httplib.HTTPConnection("my-ip.heroku.com")
+##        conn = httplib.HTTPConnection('https://check.torproject.org/')
+#        conn = httplib.HTTPConnection('check.torproject.org')
+#        conn.request("GET", "/")
+#        response = conn.getresponse()
+#        print response.read
+#
+#    main()
+    import requests
+    url = 'http://www.whatismyip.com/'
+    proxy_dict = {'http:':'http://190.72.147.88:8080'}
+    r = requests.get(url, proxies=proxy_dict)
+    page = r.content
+    print page
+    
 

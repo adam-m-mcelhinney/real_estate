@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 ##    http://hidemyass.com/, selects proxies that are http or https, that
 ##    are annoymity level medium or high and that have fast connection speeds.
 ##    """
+## NOT WORKING!
 
 
 
