@@ -1,3 +1,8 @@
+# Exclude Excel and data files
+*.csv
+*.xls
+*.xlsm
+
 #################
 ## Eclipse
 #################
