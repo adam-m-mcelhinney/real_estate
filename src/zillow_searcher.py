@@ -23,6 +23,7 @@ Steps:
 
 def search_prop(nav_root, search_root,address):
     """
+    TODO: modify to just return the full HTML of the site if found
     Searches Zillow and returns the url of the property specific page, if found
     1. nav_root: the root url that the specific property info is appended to. Found by selecting a specific property on Zillow. Example full url:
     http://www.zillow.com/homedetails/1602-2nd-St-Winthrop-Harbor-IL-60096/4747609_zpid/
@@ -84,4 +85,4 @@ if __name__ == "__main__":
     #address='147 SHERIDAN RD WINTHROP HARBOR'
     #address='1602 2ND '
     print search_prop(nav_root,search_root,address)
-    
+
