@@ -66,4 +66,12 @@ soup = BeautifulSoup(y.read())
 print soup.prettify
 
 
+# This way seems to work!
+import requests
+url = "http://www.whatsmyip.us/"
+r = requests.get(url, proxies=({"http":"http://200.52.172.115:8080"}))
+thedata = r.content
+print thedata
+
+
 
