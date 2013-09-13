@@ -1,3 +1,4 @@
+import requests
 import urllib2
 from bs4 import BeautifulSoup
 #Code to verify my IP address
@@ -17,14 +18,17 @@ def check_ip_tor(proxy_dict = None):
 
     if proxy_dict is not None:
 
-        prox = urllib2.ProxyHandler(proxy_dict)
-        opener = urllib2.build_opener(prox, urllib2.HTTPHandler(debuglevel=1))
-        urllib2.install_opener(opener)
-        response = opener.open(url)
+        #prox = urllib2.ProxyHandler(proxy_dict)
+        #opener = urllib2.build_opener(prox, urllib2.HTTPHandler(debuglevel=1))
+        #urllib2.install_opener(opener)
+        #response = opener.open(url)
+        #reponse = requests.get(url, proxies=({"http":"http://200.52.172.115:8080"}))
+        response = requests.get(url, proxies=(proxy_dict))
     else:
-        response = urllib2.urlopen(url)
+        #response = urllib2.urlopen(url)
+        response = requests.get(url)
 
-    html = response.read()
+    html = response.content
     soup = BeautifulSoup(html)
 
     # Grab the ip, which is bolded
@@ -39,7 +43,7 @@ def check_ip_tor(proxy_dict = None):
 if __name__ == "__main__":
     print check_ip_tor()
     #proxy_dict = {"http":"http://127.0.0.1:8118"}
-    proxy_dict = {"http":"http://14.139.236.220:8080"}
+    proxy_dict = {"http":"http://200.52.172.115:8080"}
     print check_ip_tor(proxy_dict)
 
     # tried this thing too
