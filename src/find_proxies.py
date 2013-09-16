@@ -29,9 +29,11 @@ def get_port(row_txt):
     return port
     
 def get_ip(row_txt):
-    rawstr = '   </style>\n   <span style="display: inline">\n.*\n  </span>\n </td>\n <td>'
+    #rawstr = '   </style>\n   <span style="display: inline">\n.*\n  </span>\n </td>\n <td>'
     # Identify the block containing the IP
-    ip_block_re = re.compile(rawstr,  re.IGNORECASE| re.DOTALL)
+    rawstr = '<span style="display: inline">[0-9]*</span>'
+    #ip_block_re = re.compile(rawstr,  re.IGNORECASE| re.DOTALL)
+    ip_block_re = re.compile(rawstr,  re.IGNORECASE)
     ip_block = re.findall(ip_block_re, row_txt)
     # Get the first octect
     ip_first_str = '   </style>\n   <span style="display: inline">\n    [0-9]*\n   </span>\n   <span class="aqkO">\n    .\n   </span>\n'
@@ -44,16 +46,18 @@ if __name__ == '__main__':
 
     
     url = 'http://hidemyass.com/proxy-list/search-227955'
+    user_agent_str= 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36'
     opener = urllib2.build_opener()
+    opener.addheaders = [('User-agent', user_agent_str)]
     y=opener.open(url)
     soup = BeautifulSoup(y.read())
     all_rows = soup.findAll("tr")
     print all_rows[1].prettify()
     
-    row_txt = str(all_rows)
-    
 
-        
+    row_txt = str(all_rows[4])
     r = get_update_time(row_txt)
+    p = get_port(row_txt)
+    i = get_ip(row_txt)
         
     

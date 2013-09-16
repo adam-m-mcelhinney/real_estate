@@ -42,13 +42,23 @@ def verify_user_agent(test_user_agent):
         
         
     
-def get_user_agents():
+def get_user_agents(user_agent = True):
     """
     Gets  a list of the most popular user agents
+    
+    Need to add a user-agent (ironically) or it will give you a 403 error.
+    However, this is erratic.
 
     """
     url = 'http://techblog.willshouse.com/2012/01/03/most-common-user-agents/'
-    response = urllib2.urlopen(url)
+    if user_agent is True:
+        opener = urllib2.build_opener()
+        user_agent_str = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36'
+        opener.addheaders = [('User-agent', user_agent_str)]
+        response=opener.open(url)
+    else:
+        response = urllib2.urlopen(url)
+
     html = response.read()
     soup = BeautifulSoup(html)    
     # Get all user agents 
@@ -94,7 +104,7 @@ if __name__ == "__main__":
     print verify_user_agent(user_agent_str)
     
     # Test Case 2
-    user_agents = get_user_agents()
-    for i in user_agents:
-        print verify_user_agent(i)
+    user_agents = get_user_agents(user_agent_str)
+    #for i in user_agents:
+        #print verify_user_agent(i)
         
