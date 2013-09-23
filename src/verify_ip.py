@@ -1,14 +1,67 @@
 import requests
 import urllib2
 from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.proxy import *
+from pyvirtualdisplay import Display
+
 #Code to verify my IP address
 # http://chisflorinel.blogspot.com/2008/10/fetch-urls-anonymously-with-python.html
 # Unix install instructions
 # https://www.torproject.org/docs/debian.html.en#ubuntu
 
-def check_ip_tor(proxy_dict = None):
+def check_ip_tor(proxy_ip_port = None):
     """
-    Goes to the site
+    Goes to the site, using selenium!
+    Outputs:
+    1. Your ip address, string
+    2. Are you using tor, boolean
+    """
+    # Go to the site and read it
+    url = 'https://check.torproject.org/'
+    
+    # Ensure the window doesnt pop up, aka "headless"    
+    display = Display(visible=0, size=(800, 600))
+    display.start()
+
+    if proxy_ip_port is not None:
+        
+        proxy = Proxy({
+        'proxyType': ProxyType.MANUAL,
+        'httpProxy': proxy_ip_port,
+        'ftpProxy': proxy_ip_port,
+        'sslProxy': proxy_ip_port,
+        'noProxy': '' # set this value as desired
+        })
+        # TODO: try phantomJS instead, supposedly faster
+        driver = webdriver.Firefox(proxy=proxy)
+        driver.get(url)
+
+
+
+    else:
+        driver = webdriver.Firefox()
+        driver.get(url)
+
+    soup = BeautifulSoup(driver.page_source)
+    driver.quit()
+
+    # Grab the ip, which is bolded
+    ip = str(soup.b.text)
+
+    # Check if you are using tor
+    tor_string = "Sorry. You are not using Tor."
+    tor_site = soup.img
+    tor_flg = tor_string in tor_site
+    return ip, tor_flg
+
+def check_ip_tor_requests(proxy_dict = None):
+    """
+    Goes to the site, using the python requests module
     Outputs:
     1. Your ip address, string
     2. Are you using tor, boolean
@@ -60,40 +113,18 @@ def verify_ip_simple(proxy_dict = None):
     
 
 if __name__ == "__main__":
+    '''
     print check_ip_tor()
     #proxy_dict = {"http":"http://127.0.0.1:8118"}
     proxy_dict = {"http":"http://200.52.172.115:8080"}
-    print check_ip_tor(proxy_dict)
+    print check_ip_tor_requests(proxy_dict)
+    '''
 
-    # tried this thing too
-    # http://www.youtube.com/watch?v=KDsmVH7eJCs
-#
-#    import socket
-#    import socks
-#    import httplib
-#
-#    def connectTor():
-#        #socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9050, True)
-#        socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9051, True)
-#        socket.socket = socks.socksocket
-#
-#    def main():
-#        connectTor()
-#        print ('Connected to Tor')
-#        #conn = httplib.HTTPConnection("my-ip.heroku.com")
-##        conn = httplib.HTTPConnection('https://check.torproject.org/')
-#        conn = httplib.HTTPConnection('check.torproject.org')
-#        conn.request("GET", "/")
-#        response = conn.getresponse()
-#        print response.read
-#
-#    main()
-    import requests
-    url = 'http://www.whatismyip.com/'
-    #proxy_dict = {'http:':'http://86.111.144.194:3128'}
-    proxy_dict = {'http:':'86.111.144.194:3128'}
-    r = requests.get(url, proxies=proxy_dict)
-    page = r.content
-    print page.prettify()
+
+    
+    # Test selenium
+    proxy_ip_port = '173.213.113.111:7808'
+    print check_ip_tor(proxy_ip_port)
+    
     
 

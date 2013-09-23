@@ -34,7 +34,8 @@ def verify_all_proxies(proxyFilePath, simple = False, mx_hits = 100):
         try:
             # You have two options on which site to use
             if simple == False:
-                actualIp = check_ip_tor({'http' : "http://" + i})[0]
+                # Changed to use selenium
+                actualIp = check_ip_tor(i)[0]
             else:
                 actualIp = verify_ip_simple({'http' : "http://" + i})
                 
@@ -50,6 +51,7 @@ def verify_all_proxies(proxyFilePath, simple = False, mx_hits = 100):
         ,'myIp_match_flg', 'Ip_match_flg'])
         #print row
         results = results.append(row)
+        print j
         j += 1
     
     return results
@@ -63,15 +65,15 @@ def verify_all_proxies(proxyFilePath, simple = False, mx_hits = 100):
 
 if __name__ == "__main__":
     proxyFilePath = '/home/amcelhinney/Documents/_full_list.txt'
-    results = verify_all_proxies(proxyFilePath)
+    results = verify_all_proxies(proxyFilePath, mx_hits = 5)
     print results.irow(0)
     print 'Pct IPs wrong:\n' + str(len(results['myIp_match_flg']==True)
     /len(results['myIp_match_flg'])*100)
     print hist(results['myIp_match_flg'])
     
     # Use the other site
-    results = verify_all_proxies(proxyFilePath, simple = True)
-    print results.irow(0)
-    print 'Pct IPs wrong:\n' + str(len(results['myIp_match_flg']==True)
-    /len(results['myIp_match_flg'])*100)
-    print hist(results['myIp_match_flg'])
+#    results = verify_all_proxies(proxyFilePath, simple = True)
+#    print results.irow(0)
+#    print 'Pct IPs wrong:\n' + str(len(results['myIp_match_flg']==True)
+#    /len(results['myIp_match_flg'])*100)
+#    print hist(results['myIp_match_flg'])
