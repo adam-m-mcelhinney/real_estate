@@ -109,7 +109,7 @@ class scraper(identity):
         
 if __name__ == '__main__':
     addressFilePath = 'C:/Users/Adam/Documents/NewLine_Addresses.csv'
-    proxyFilePath = 'C:\Users\Adam\Downloads\_reliable_list.txt'
+    proxyFilePath = 'C:\Users\Adam\Downloads\ir.txt'
     s = scraper(addressFilePath, proxyFilePath)
     s.populateIdentities()
     print s.myIP
