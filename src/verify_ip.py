@@ -71,9 +71,10 @@ if __name__ == "__main__":
 #    main()
     import requests
     url = 'http://www.whatismyip.com/'
-    proxy_dict = {'http:':'http://190.72.147.88:8080'}
+    #proxy_dict = {'http:':'http://86.111.144.194:3128'}
+    proxy_dict = {'http:':'86.111.144.194:3128'}
     r = requests.get(url, proxies=proxy_dict)
     page = r.content
-    print page
+    print page.prettify()
     
 
