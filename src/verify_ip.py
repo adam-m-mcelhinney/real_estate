@@ -39,6 +39,25 @@ def check_ip_tor(proxy_dict = None):
     tor_site = soup.img
     tor_flg = tor_string in tor_site
     return ip, tor_flg
+    
+def verify_ip_simple(proxy_dict = None):
+    """
+    Verifies IP on another site
+    """
+    url = 'http://ip-addr.es//'
+
+    if proxy_dict is not None:
+
+        response = requests.get(url, proxies=(proxy_dict))
+    else:
+
+        response = requests.get(url)
+    html = response.content
+    soup = BeautifulSoup(html)
+    # Grab the ip, which is bolded
+    ip = str(soup.text).replace('\n', '')
+    return ip
+    
 
 if __name__ == "__main__":
     print check_ip_tor()
