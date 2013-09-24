@@ -1,5 +1,9 @@
 #from BeautifulSoup import BeautifulSoup
 #from BeautifulSoup import *
+import sys
+sys.path.append('/home/amcelhinney/Documents/github_personal/real_estate/src')
+sys.path.append('/home/amcelhinney/Documents/github_personal/real_estate/src/selenium')
+from seleniumHelpers import getHTML, createDriver
 from bs4 import BeautifulSoup
 import urllib2
 import re
@@ -21,17 +25,19 @@ Steps:
 
 '''
 
-def search_prop(nav_root, search_root,address):
+def search_prop(nav_root, search_root,address, driver):
     """
     TODO: modify to just return the full HTML of the site if found
     Searches Zillow and returns the url of the property specific page, if found
-    1. nav_root: the root url that the specific property info is appended to. Found by selecting a specific property on Zillow. Example full url:
+    1. nav_root: the root url that the specific property info is appended to. 
+    Found by selecting a specific property on Zillow. Example full url:
     http://www.zillow.com/homedetails/1602-2nd-St-Winthrop-Harbor-IL-60096/4747609_zpid/
     --> nav_root='http://www.zillow.com/'
     2. search_root: the root url that is used for the searches
     http://www.zillow.com/homes/275-Thistle-Lake-Zurich-IL_rb/
     --> search_root='http://www.zillow.com/homes/'
-    3. Address: formatted as street number, street name, town, state. NO ZIP CODE!
+    3. Address: formatted as street number, street name, town, state. 
+    NO ZIP CODE!
     address='1602 2ND ST WINTHROP HARBOR IL'
     """
     # Prepare the url
@@ -41,12 +47,10 @@ def search_prop(nav_root, search_root,address):
     search_url=search_root+address.lower().replace(' ','-')+'_rb/'
     try:
         # Open the url
-        site=urllib2.urlopen(search_url)
+        soup = getHTML(driver, search_url)
     except:
-        print 'Cannot open URL'
-
-    # Read the html from the site and turn it into a soup object
-    soup=BeautifulSoup(site.read())
+        return 'Cannot open URL'
+    
 
     # Convert the site to text and make all lower case
     site_txt=str(soup).lower()
@@ -84,5 +88,8 @@ if __name__ == "__main__":
     address='10982 N 5TH ST WINTHROP HARBOR'
     #address='147 SHERIDAN RD WINTHROP HARBOR'
     #address='1602 2ND '
-    print search_prop(nav_root,search_root,address)
+    headLess = True
+    proxyPort = '173.213.113.111:7808'
+    driver = createDriver(proxyPort, headLess)
+    print search_prop(nav_root,search_root,address, driver)
 

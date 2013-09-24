@@ -15,6 +15,7 @@ def get_proxies(filePath):
     """
     openfile = open(filePath, 'r')
     t = openfile.read().split('\n')
+    t = [i.replace('\r','') for i in t] # Get rid of formatting characters
     # Last element is just an empty string, so remove that
     return t[0:len(t)-1]
 
